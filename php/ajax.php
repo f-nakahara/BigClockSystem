@@ -3,9 +3,10 @@
     if($func == "sendScore"){
         recordScore($_POST["diff_time_list"]);
     }
-
     function recordScore($diff_time_list){
         $file_path = "./../admin/score.txt";
+        $date = date("Y/m/d H:i ");
+        file_put_contents($file_path,$date,FILE_APPEND);
         foreach($diff_time_list as $term => $diff_time){
             $text = $term.":".$diff_time.", ";
             file_put_contents($file_path,$text,FILE_APPEND);

@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/index.css">
     <title>デモ大時計</title>
@@ -44,11 +44,15 @@
     <div class="container border-right base-line"></div>
     <main class="container-fluid px-2">
         <div class="container border p-0">
-            <div class="result-gauge term1"><span>①</span>　</div>
-            <div class="result-gauge term2"><span>②</span>　</div>
-            <div class="result-gauge term3"><span>③</span>　</div>
-            <div class="result-gauge term4"><span>④</span>　</div>
-            <div class="result-gauge term5"><span>⑤</span>　</div>
+            <div class="result-gauge term1">①<span id="term1_score">　</span>　</div>
+            <div class="result-gauge term2">②<span id="term2_score">　</span>　</div>
+            <div class="result-gauge term3">③<span id="term3_score">　</span>　</div>
+            <div class="result-gauge term4">④<span id="term4_score">　</span>　</div>
+            <div class="result-gauge term5">⑤<span id="term5_score">　</span>　</div>
+        </div>
+        <div class="row">
+            <div class="col-6 text-left" id="scale_min"></div>
+            <div class="col-6 text-right" id="scale_max"></div>
         </div>
     </main>
     <div class="container-fluid mt-1">
@@ -59,10 +63,10 @@
         </div>
     </div>
     <footer>
-        <div class="container text-center mt-2" style="height: 5vh;">
-            <button class="btn btn-danger" id="start_btn">START</button>
-            <button class="btn btn-danger" id="stop_btn">STOP</button>
-            <button class="btn btn-danger" id="reset_btn">RESET</button>
+        <div class="container text-center mt-2">
+            <button class="btn btn-danger btn-lg" id="start_btn">START</button>
+            <button class="btn btn-danger btn-lg" id="stop_btn">STOP</button>
+            <button class="btn btn-danger btn-lg" id="reset_btn">RESET</button>
         </div>
     </footer>
 

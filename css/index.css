@@ -1,4 +1,4 @@
-/* 秒針 */
+
 #second-hand {
     background-color: coral;
     border-radius: 5px;
@@ -10,7 +10,6 @@
     width: 35%;
 }
 
-/* 時針 */
 #first-hand {
     background-color: wheat;
     border-radius: 5px;
@@ -20,14 +19,13 @@
     top: calc(50% - 5px);
     transform-origin: calc(100% - 5px) center;
     width: 35%;
-    transform: rotate(90deg);
+    transform: rotate(330deg);
 }
 
 .clock {
     height: 40vh;
     width: 40vh;
-    margin: 40px auto;
-    max-width: 700px;
+    margin: 10px auto;
     /* 幅のレスポンシブ対応 、height 値は JavaScript で決める*/
     position: relative;
     /* height: 300px; */
@@ -162,5 +160,15 @@
 .base-line {
     position: fixed;
     width: 50%;
-    height: 20vh;
+    height: 18vh;
+}
+
+.btn-lg{
+    width: 80vw;
+    height: 10vh;
+}
+
+#term_score{
+    color:black;
+    font-weight: normal;
 }

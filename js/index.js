@@ -1,8 +1,12 @@
 var isGame = false;
 var clockTimer;
-var firstIntervalTime = 5.00; // 白い針の1間隔進む時間
-var secondIntervalTime = 1.00; // オレンジ針の1間隔進む時間
-var scale = 0.05;
+var firstIntervalTime = 5.000; // 白い針の1間隔進む時間
+var secondIntervalTime = 1.000; // オレンジ針の1間隔進む時間
+
+var scale_now = 0.030; // スケール幅の実数値
+var scale_min = 0.030; // スケール幅の最小値
+var scale_max = 0.250; // スケール幅の最大値
+var scale_width = 0.020 // スケール増減値
 var record = true;
 
 var result = {
@@ -15,11 +19,11 @@ var result = {
 };
 
 var baseScore = {
-    "term1": firstIntervalTime * 9 + secondIntervalTime * 5,
-    "term2": firstIntervalTime * 9 + secondIntervalTime * 8,
-    "term3": firstIntervalTime * 9 + secondIntervalTime * 11,
-    "term4": firstIntervalTime * 9 + secondIntervalTime * 13,
-    "term5": firstIntervalTime * 9 + secondIntervalTime * 15
+    "term1": firstIntervalTime * 1 + secondIntervalTime * 5,
+    "term2": firstIntervalTime * 1 + secondIntervalTime * 8,
+    "term3": firstIntervalTime * 1 + secondIntervalTime * 11,
+    "term4": firstIntervalTime * 1 + secondIntervalTime * 13,
+    "term5": firstIntervalTime * 1 + secondIntervalTime * 15
 }
 
 function pushStartButton() {
@@ -34,7 +38,7 @@ function pushStartButton() {
 function pushStopButton() {
     $("#stop_btn").on("click", function () {
         var stopTime = new Date().getTime();
-        var score = (stopTime - result["start"]) / 1000.00;
+        var score = (stopTime - result["start"]) / 1000.000;
         if (result["term1"] == null) {
             result["term1"] = score;
         }
@@ -60,19 +64,26 @@ function pushStopButton() {
     })
 }
 
+function setScaleMemori(){
+    $("#scale_min").text("-"+(scale_now.toFixed(3)));
+    $("#scale_max").text("+"+(scale_now.toFixed(3)));
+}
+
 function pushScaleExpansion() {
     $("#scale_expansion").on("click", function () {
-        scale += 0.10;
-        scale = (scale >= 0.95) ? 0.95 : scale;
+        scale_now += scale_width;
+        scale_now = (scale_now >= scale_max) ? scale_max : scale_now;
         showResultScore();
+        setScaleMemori();
     })
 }
 
 function pushScaleReducation() {
     $("#scale_education").on("click", function () {
-        scale -= 0.10;
-        scale = (scale <= 0.05) ? 0.05 : scale;
+        scale_now -= scale_width;
+        scale_now = (scale_now <= scale_min) ? scale_min : scale_now;
         showResultScore();
+        setScaleMemori();
     })
 }
 
@@ -90,7 +101,7 @@ function sendScore() {
 
         for (var term of termList) {
             var diff_time = result[term] - baseScore[term];
-            diff_time_list[term] = diff_time.toFixed(2);
+            diff_time_list[term] = diff_time.toFixed(3);
         }
         $.ajax({
             url: "./php/ajax.php",
@@ -107,9 +118,23 @@ function showResultScore() {
     var termList = ["term1", "term2", "term3", "term4", "term5"];
     for (var term of termList) {
         var diff_time = result[term] - baseScore[term];
-        var offset = scale + diff_time;
-        var ratio = offset / (scale * 2) * 100.0;
-        ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
+        var offset = scale_now + diff_time;
+        var ratio = offset / (scale_now * 2.000) * 100.000;
+        if(ratio < 0 || ratio>100){
+            ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
+            $(`#${term}_score`).text(diff_time.toFixed(3));
+            $(`#${term}_score`).css({
+                "color":"#ff0000",
+                "font-weight":"bold"
+            })
+        }
+        else{
+            $(`#${term}_score`).text(diff_time.toFixed(3));
+            $(`#${term}_score`).css({
+                "color":"#000000",
+                "font-weight":"normal"
+            })
+        }
         $(`.${term}`).css({
             "width": ratio + "%"
         })
@@ -130,7 +155,7 @@ function pushResetButton() {
             transform: 'rotate(0deg)'
         })
         $("#first-hand").css({
-            transform: 'rotate(90deg)'
+            transform: 'rotate(330deg)'
         })
         hideResetButton();
         showStartButton();
@@ -142,21 +167,18 @@ function pushResetButton() {
 function startClock() {
     $('#first-hand').animate({ opacity: 2 }, {
         easing: "linear",
-        duration: firstIntervalTime * 9 * 1000, // 秒単位に変換
+        duration: firstIntervalTime * 1 * 1000, // 秒単位に変換
         step: function (now) {
-            $(this).css({ transform: 'rotate(' + (now - 90) * 270 + 'deg)' })
+            $(this).css({ transform: 'rotate(' + (now-2) * (30) + 'deg)' })
         },
         complete: function () {
             $('#second-hand, #first-hand').animate({ opacity: 2 }, {
                 easing: "linear",
                 duration: secondIntervalTime * 21 * 1000, // 秒単位に変換
                 step: function (now) {
-                    $(this).css({ transform: 'rotate(' + (now - 45) * (450 + 180) + 'deg)' })
+                    $(this).css({ transform: 'rotate(' + (now - 1) * (450 + 180) + 'deg)' })
                 },
                 complete: function () {
-                    $("#second-hand").css({
-                        transform: "rotate(0deg)"
-                    });
                     hideStopButton();
                     showResetButton();
                     showResultScore();
@@ -196,6 +218,7 @@ function showResetButton() {
 }
 
 $(function () {
+    setScaleMemori()
     hideStopButton();
     hideResetButton();
     pushStartButton();
