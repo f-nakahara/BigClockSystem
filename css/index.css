@@ -1,30 +1,35 @@
-
 #second-hand {
-    background-color: coral;
-    border-radius: 5px;
+    /* background-color: coral; */
+    /* border-radius: 5px; */
     height: 10px;
     position: absolute;
     right: calc(50% - 2px);
     top: calc(50% - 5px);
     transform-origin: calc(100% - 2px) center;
     width: 35%;
+    border-top: 5px solid transparent;
+    border-right: 90px solid coral;
+    border-bottom: 5px solid transparent;
 }
 
 #first-hand {
-    background-color: wheat;
-    border-radius: 5px;
+    /* background-color: wheat; */
+    /* border-radius: 5px; */
     height: 10px;
     position: absolute;
-    right: calc(50% - 5px);
+    right: calc(50% - 2px);
     top: calc(50% - 5px);
-    transform-origin: calc(100% - 5px) center;
+    transform-origin: calc(100% - 2px) center;
     width: 35%;
     transform: rotate(330deg);
+    border-top: 5px solid transparent;
+    border-right: 90px solid wheat;
+    border-bottom: 5px solid transparent;
 }
 
 .clock {
-    height: 30vh;
-    width: 30vh;
+    height: 80vw;
+    width: 80vw;
     margin: 10px auto;
     /* 幅のレスポンシブ対応 、height 値は JavaScript で決める*/
     position: relative;
@@ -32,6 +37,7 @@
     border-radius: 50%;
     border: solid 2px silver;
     background-color: #000;
+    padding: 10px;
 }
 
 /* 中心の軸となる部分 */
@@ -51,6 +57,7 @@
     position: relative;
     width: 100%;
     height: 100%;
+    padding: 50px;
 }
 
 /* 目盛り */
@@ -68,13 +75,16 @@
 
 .dials div:nth-child(1) {
     transform: rotate(30deg);
+
 }
 
 .dials div:nth-child(2) {
+    top: -10px;
+    height: calc(50% + 10px);
     left: calc(50% - 20px);
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 50px solid chocolate;
+    border-top: 60px solid chocolate;
     transform: rotate(60deg);
 }
 
@@ -95,10 +105,12 @@
 }
 
 .dials div:nth-child(5) {
+    top: -10px;
+    height: calc(50% + 10px);
     left: calc(50% - 20px);
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 50px solid chocolate;
+    border-top: 60px solid chocolate;
     transform: rotate(150deg);
 }
 
@@ -111,10 +123,12 @@
 }
 
 .dials div:nth-child(8) {
+    top: -10px;
+    height: calc(50% + 10px);
     left: calc(50% - 20px);
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 50px solid chocolate;
+    border-top: 60px solid chocolate;
     transform: rotate(240deg);
 }
 
@@ -131,10 +145,12 @@
 }
 
 .dials div:nth-child(10) {
+    top: -10px;
+    height: calc(50% + 10px);
     left: calc(50% - 20px);
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 50px solid chocolate;
+    border-top: 60px solid chocolate;
     transform: rotate(300deg);
 }
 
@@ -143,11 +159,48 @@
 }
 
 .dials div:nth-child(12) {
+    top: -10px;
+    height: calc(50% + 10px);
     left: calc(50% - 20px);
     border-left: 20px solid transparent;
     border-right: 20px solid transparent;
-    border-top: 50px solid chocolate;
+    border-top: 60px solid chocolate;
     transform: rotate(360deg);
+}
+
+#term1_score {
+    border: none;
+    top: -8vw;
+    left: 30vw;
+    color: red;
+}
+
+#term2_score {
+    border: none;
+    top: 10vw;
+    left: 70vw;
+    color: red;
+}
+
+#term3_score {
+    border: none;
+    top: 70vw;
+    left: 60vw;
+    color: red;
+}
+
+#term4_score {
+    border: none;
+    top: 56vw;
+    left: -11vw;
+    color: red;
+}
+
+#term5_score {
+    border: none;
+    top: 10vw;
+    left: -11vw;
+    color: red;
 }
 
 .result-gauge {
@@ -164,13 +217,13 @@
     white-space: nowrap;
 }
 
-.btn-lg{
+.btn-lg {
     width: 80vw;
-    height: 10vh;
+    height: 20vh;
 }
 
-#term_score{
-    color:black;
+#term_score {
+    color: black;
     font-weight: normal;
 }
 
@@ -178,10 +231,15 @@ body {
     font-feature-settings: "palt";
 }
 
-#term2_score, #term1_score, #term3_score, #term4_score, #term5_score{
+#term2_score,
+#term1_score,
+#term3_score,
+#term4_score,
+#term5_score {
     white-space: nowrap;
 }
 
-html, body {
+html,
+body {
     overflow: hidden;
-  }
+}

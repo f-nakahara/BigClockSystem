@@ -8,6 +8,7 @@ var scale_min = 0.030; // スケール幅の最小値
 var scale_max = 0.250; // スケール幅の最大値
 var scale_width = 0.020 // スケール増減値
 var record = true;
+var time;
 
 var result = {
     "start": null,
@@ -40,19 +41,15 @@ function pushStopButton() {
     $("#stop_btn").on("click", function () {
         var stopTime = new Date().getTime();
         var score = (stopTime - result["start"]) / 1000.000;
-        if (result["term1"] == null) {
+        if (9.5 <= time && time <= 10.5 && result["term1"] == null) {
             result["term1"] = score;
-        }
-        else if (result["term2"] == null) {
+        } else if (12.5 <= time && time <= 13.5 && result["term2"] == null) {
             result["term2"] = score;
-        }
-        else if (result["term3"] == null) {
-            result["term3"] = score
-        }
-        else if (result["term4"] == null) {
+        } else if (15.5 <= time && time <= 16.5 && result["term3"] == null) {
+            result["term3"] = score;
+        } else if (17.5 <= time && time <= 18.5 && result["term4"] == null) {
             result["term4"] = score;
-        }
-        else if (result["term5"] == null) {
+        } else if (19.5 <= time && time <= 20.5 && result["term5"] == null) {
             result["term5"] = score;
             Promise.all([
                 stopClock(),
@@ -65,9 +62,9 @@ function pushStopButton() {
     })
 }
 
-function setScaleMemori(){
-    $("#scale_min").text("-"+(scale_now.toFixed(3)));
-    $("#scale_max").text("+"+(scale_now.toFixed(3)));
+function setScaleMemori() {
+    $("#scale_min").text("-" + (scale_now.toFixed(3)));
+    $("#scale_max").text("+" + (scale_now.toFixed(3)));
 }
 
 function pushScaleExpansion() {
@@ -101,10 +98,9 @@ function sendScore() {
         };
 
         for (var term of termList) {
-            if(result[term] == "miss!"){
+            if (result[term] == "miss!") {
                 diff_time_list[term] = "miss!"
-            }
-            else{
+            } else {
                 var diff_time = result[term] - baseScore[term];
                 diff_time_list[term] = diff_time.toFixed(3);
             }
@@ -123,35 +119,46 @@ function sendScore() {
 function showResultScore() {
     var termList = ["term1", "term2", "term3", "term4", "term5"];
     for (var term of termList) {
-        if(result[term] == "miss!"){
+        if (result[term] == "miss!") {
             $(`#${term}_score`).text(result[term]);
             $(`#${term}_score`).css({
-                "color":"#000000",
-                "font-weight":"normal"
+                "color": "#000000",
+                "font-weight": "normal"
             })
-        }
-        else{
+        } else {
             var diff_time = result[term] - baseScore[term];
             var offset = scale_now + diff_time;
-            var ratio = offset / (scale_now * 2.000) * 100.000;
-            if(ratio < 0 || ratio>100){
-                ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
+            if (-scale_now <= diff_time && diff_time <= scale_now) {
                 $(`#${term}_score`).text(diff_time.toFixed(3));
                 $(`#${term}_score`).css({
-                    "color":"#ff0000",
-                    "font-weight":"bold"
+                    "color": "#000000",
+                    "font-weight": "normal"
                 })
-            }
-            else{
+            } else {
                 $(`#${term}_score`).text(diff_time.toFixed(3));
                 $(`#${term}_score`).css({
-                    "color":"#000000",
-                    "font-weight":"normal"
+                    "color": "#ff0000",
+                    "font-weight": "bold"
                 })
             }
-            $(`.${term}`).css({
-                "width": ratio + "%"
-            })
+            // var ratio = offset / (scale_now * 2.000) * 100.000;
+            // if (ratio < 0 || ratio > 100) {
+            //     ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
+            //     $(`#${term}_score`).text(diff_time.toFixed(3));
+            //     $(`#${term}_score`).css({
+            //         "color": "#ff0000",
+            //         "font-weight": "bold"
+            //     })
+            // } else {
+            //     $(`#${term}_score`).text(diff_time.toFixed(3));
+            //     $(`#${term}_score`).css({
+            //         "color": "#000000",
+            //         "font-weight": "normal"
+            //     })
+            // }
+            // $(`.${term}`).css({
+            //     "width": ratio + "%"
+            // })
         }
     }
 }
@@ -175,24 +182,34 @@ function pushResetButton() {
         hideResetButton();
         showStartButton();
         record = true;
+        $("#term1_score, #term2_score, #term3_score, #term4_score, #term5_score").text("")
     })
+
 }
 
 
 function startClock() {
-    $('#first-hand').animate({ opacity: 2 }, {
+    $('#first-hand').animate({
+        opacity: 2
+    }, {
         easing: "linear",
         duration: firstIntervalTime * 1 * 1000, // 秒単位に変換
         step: function (now) {
-            $(this).css({ transform: 'rotate(' + (now-2) * (30) + 'deg)' })
+            $(this).css({
+                transform: 'rotate(' + (now - 2) * (30) + 'deg)'
+            })
         },
         complete: function () {
-            $('#second-hand, #first-hand').animate({ opacity: 2 }, {
+            $('#second-hand, #first-hand').animate({
+                opacity: 2
+            }, {
                 easing: "linear",
                 duration: secondIntervalTime * 21 * 1000, // 秒単位に変換
                 step: function (now) {
 
-                    $(this).css({ transform: 'rotate(' + (now - 1) * (450 + 180) + 'deg)' })
+                    $(this).css({
+                        transform: 'rotate(' + (now - 1) * (450 + 180) + 'deg)'
+                    })
                 },
                 complete: function () {
                     hideStopButton();
@@ -205,41 +222,37 @@ function startClock() {
     });
 }
 
-function isTap(){
-    var time = 0.0;
-    clockTimer = setInterval(function(){
+function isTap() {
+    time = 0.0;
+    clockTimer = setInterval(function () {
         time += 0.1;
-        if (time.toFixed(1) == 10.5){
-            if(result["term1"] == null){
+        if (time.toFixed(1) == 10.6) {
+            if (result["term1"] == null) {
                 result["term1"] = "miss!"
             }
-        }
-        else if(time.toFixed(1) == 13.5){
-            if(result["term2"]== null){
+        } else if (time.toFixed(1) == 13.6) {
+            if (result["term2"] == null) {
                 result["term2"] = "miss!"
             }
-        }
-        else if(time.toFixed(1) == 16.5){
-            if(result["term3"]== null){
+        } else if (time.toFixed(1) == 16.6) {
+            if (result["term3"] == null) {
                 result["term3"] = "miss!"
             }
-        }
-        else if(time.toFixed(1) == 18.5){
-            if(result["term4"]== null){
+        } else if (time.toFixed(1) == 18.6) {
+            if (result["term4"] == null) {
                 result["term4"] = "miss!"
             }
-        }
-        else if(time.toFixed(1) == 20.5){
-            if(result["term5"]== null){
+        } else if (time.toFixed(1) == 20.6) {
+            if (result["term5"] == null) {
                 result["term5"] = "miss!"
                 stopClock(),
-                hideStopButton(),
-                showResetButton(),
-                showResultScore(),
-                sendScore()
+                    hideStopButton(),
+                    showResetButton(),
+                    showResultScore(),
+                    sendScore()
             }
         }
-    },100);
+    }, 100);
 }
 
 function stopClock() {
@@ -271,7 +284,7 @@ function showResetButton() {
     $("#reset_btn").show();
 }
 
-window.addEventListener('touchmove', function(event) {
+window.addEventListener('touchmove', function (event) {
     event.preventDefault();
 });
 $(function () {
