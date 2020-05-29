@@ -28,6 +28,7 @@ var baseScore = {
 
 function pushStartButton() {
     $("#start_btn").on("click", function () {
+        isTap()
         hideStartButton();
         showStopButton();
         startClock();
@@ -100,8 +101,13 @@ function sendScore() {
         };
 
         for (var term of termList) {
-            var diff_time = result[term] - baseScore[term];
-            diff_time_list[term] = diff_time.toFixed(3);
+            if(result[term] == "miss!"){
+                diff_time_list[term] = "miss!"
+            }
+            else{
+                var diff_time = result[term] - baseScore[term];
+                diff_time_list[term] = diff_time.toFixed(3);
+            }
         }
         $.ajax({
             url: "./php/ajax.php",
@@ -117,27 +123,36 @@ function sendScore() {
 function showResultScore() {
     var termList = ["term1", "term2", "term3", "term4", "term5"];
     for (var term of termList) {
-        var diff_time = result[term] - baseScore[term];
-        var offset = scale_now + diff_time;
-        var ratio = offset / (scale_now * 2.000) * 100.000;
-        if(ratio < 0 || ratio>100){
-            ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
-            $(`#${term}_score`).text(diff_time.toFixed(3));
-            $(`#${term}_score`).css({
-                "color":"#ff0000",
-                "font-weight":"bold"
-            })
-        }
-        else{
-            $(`#${term}_score`).text(diff_time.toFixed(3));
+        if(result[term] == "miss!"){
+            $(`#${term}_score`).text(result[term]);
             $(`#${term}_score`).css({
                 "color":"#000000",
                 "font-weight":"normal"
             })
         }
-        $(`.${term}`).css({
-            "width": ratio + "%"
-        })
+        else{
+            var diff_time = result[term] - baseScore[term];
+            var offset = scale_now + diff_time;
+            var ratio = offset / (scale_now * 2.000) * 100.000;
+            if(ratio < 0 || ratio>100){
+                ratio = (ratio < 0) ? 0 : (ratio > 100) ? 100 : ratio;
+                $(`#${term}_score`).text(diff_time.toFixed(3));
+                $(`#${term}_score`).css({
+                    "color":"#ff0000",
+                    "font-weight":"bold"
+                })
+            }
+            else{
+                $(`#${term}_score`).text(diff_time.toFixed(3));
+                $(`#${term}_score`).css({
+                    "color":"#000000",
+                    "font-weight":"normal"
+                })
+            }
+            $(`.${term}`).css({
+                "width": ratio + "%"
+            })
+        }
     }
 }
 
@@ -176,6 +191,7 @@ function startClock() {
                 easing: "linear",
                 duration: secondIntervalTime * 21 * 1000, // 秒単位に変換
                 step: function (now) {
+
                     $(this).css({ transform: 'rotate(' + (now - 1) * (450 + 180) + 'deg)' })
                 },
                 complete: function () {
@@ -189,8 +205,46 @@ function startClock() {
     });
 }
 
+function isTap(){
+    var time = 0.0;
+    clockTimer = setInterval(function(){
+        time += 0.1;
+        if (time.toFixed(1) == 10.5){
+            if(result["term1"] == null){
+                result["term1"] = "miss!"
+            }
+        }
+        else if(time.toFixed(1) == 13.5){
+            if(result["term2"]== null){
+                result["term2"] = "miss!"
+            }
+        }
+        else if(time.toFixed(1) == 16.5){
+            if(result["term3"]== null){
+                result["term3"] = "miss!"
+            }
+        }
+        else if(time.toFixed(1) == 18.5){
+            if(result["term4"]== null){
+                result["term4"] = "miss!"
+            }
+        }
+        else if(time.toFixed(1) == 20.5){
+            if(result["term5"]== null){
+                result["term5"] = "miss!"
+                stopClock(),
+                hideStopButton(),
+                showResetButton(),
+                showResultScore(),
+                sendScore()
+            }
+        }
+    },100);
+}
+
 function stopClock() {
     $("#second-hand, #first-hand").stop();
+    clearInterval(clockTimer);
 }
 
 function hideStopButton() {
@@ -217,6 +271,9 @@ function showResetButton() {
     $("#reset_btn").show();
 }
 
+window.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+});
 $(function () {
     setScaleMemori()
     hideStopButton();

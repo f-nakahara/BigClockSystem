@@ -23,8 +23,8 @@
 }
 
 .clock {
-    height: 40vh;
-    width: 40vh;
+    height: 30vh;
+    width: 30vh;
     margin: 10px auto;
     /* 幅のレスポンシブ対応 、height 値は JavaScript で決める*/
     position: relative;
@@ -161,6 +161,7 @@
     position: fixed;
     width: 50%;
     height: 18vh;
+    white-space: nowrap;
 }
 
 .btn-lg{
@@ -172,3 +173,15 @@
     color:black;
     font-weight: normal;
 }
+
+body {
+    font-feature-settings: "palt";
+}
+
+#term2_score, #term1_score, #term3_score, #term4_score, #term5_score{
+    white-space: nowrap;
+}
+
+html, body {
+    overflow: hidden;
+  }
