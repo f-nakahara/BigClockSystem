@@ -287,7 +287,47 @@ function showResetButton() {
 window.addEventListener('touchmove', function (event) {
     event.preventDefault();
 });
+
+function setHandSize() {
+    var handSize = $("#base-dial").height();
+    $("#second-hand").css({
+        "border-right": `${handSize}px solid coral`
+    })
+    $("#first-hand").css({
+        "border-right": `${handSize}px solid wheat`
+    })
+
+}
+
+function setScorePosition() {
+    var clockSize = $(".clock").height();
+    var ww = window.innerWidth;
+    $("#term1_score").css({
+        "left": `${ww/2+clockSize/2-20}px`,
+        "top": `${clockSize/4}px`
+    });
+    $("#term2_score").css({
+        "left": `${ww / 2 + clockSize/3}px`,
+        "top": `${clockSize}px`
+    });
+    $("#term3_score").css({
+        "left": `${ww/2-clockSize/3*2}px`,
+        "top": `${clockSize/6*5}px`
+    });
+    $("#term4_score").css({
+        "left": `${ww/2-clockSize/3*2}px`,
+        "top": `${clockSize/6*1.5}px`
+    });
+    $("#term5_score").css({
+        "left": `${ww / 2}px`,
+        "top": `${5}px`
+    });
+}
+
 $(function () {
+    setHandSize();
+    setScorePosition();
+    showResultScore()
     setScaleMemori()
     hideStopButton();
     hideResetButton();

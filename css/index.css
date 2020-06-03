@@ -28,12 +28,12 @@
 }
 
 .clock {
-    height: 80vw;
-    width: 80vw;
+    height: 70vh;
+    width: 70vh;
+    max-width: 80vw;
+    max-height: 80vw;
     margin: 10px auto;
-    /* 幅のレスポンシブ対応 、height 値は JavaScript で決める*/
     position: relative;
-    /* height: 300px; */
     border-radius: 50%;
     border: solid 2px silver;
     background-color: #000;
@@ -170,12 +170,12 @@
 
 #term1_score {
     border: none;
-    top: -8vw;
-    left: 30vw;
+    position: fixed;
     color: red;
 }
 
 #term2_score {
+    position: fixed;
     border: none;
     top: 10vw;
     left: 70vw;
@@ -183,6 +183,7 @@
 }
 
 #term3_score {
+    position: fixed;
     border: none;
     top: 70vw;
     left: 60vw;
@@ -190,6 +191,7 @@
 }
 
 #term4_score {
+    position: fixed;
     border: none;
     top: 56vw;
     left: -11vw;
@@ -197,6 +199,7 @@
 }
 
 #term5_score {
+    position: fixed;
     border: none;
     top: 10vw;
     left: -11vw;
@@ -218,7 +221,7 @@
 }
 
 .btn-lg {
-    width: 80vw;
+    width: 70vw;
     height: 20vh;
 }
 
