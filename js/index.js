@@ -332,7 +332,7 @@ $(window).resize(function () {
 $(function () {
     setHandSize();
     setScorePosition();
-    showResultScore()
+    // showResultScore()
     setScaleMemori()
     hideStopButton();
     hideResetButton();
