@@ -324,6 +324,11 @@ function setScorePosition() {
     });
 }
 
+$(window).resize(function () {
+    setHandSize();
+    setScorePosition();
+});
+
 $(function () {
     setHandSize();
     setScorePosition();
